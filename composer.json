@@ -1,0 +1,25 @@
+{
+    "name": "maks757/yii2-honers",
+    "description": "Components and modules for the management achievements.",
+    "keywords": ["yii2", "honers", "module honers", "component honers", "maks757"],
+    "type": "yii2-extension",
+    "license": "GNU Public License",
+    "support": {
+        "source": "https://github.com/maks757/yii2-honers"
+    },
+    "require": {
+        "yiisoft/yii2": ">=2.0.4",
+        "black-lamp/yii2-imagable": "1.1.1"
+    },
+    "authors": [
+        {
+            "name": "Maxim Cherednyk",
+            "email": "maks757q@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "maks757\\honers\\": ""
+        }
+    }
+}
