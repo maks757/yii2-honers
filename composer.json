@@ -9,7 +9,7 @@
     },
     "require": {
         "yiisoft/yii2": ">=2.0.4",
-        "black-lamp/yii2-imagable": "^1.1.1"
+        "black-lamp/yii2-imagable": ">=1.1.1"
     },
     "authors": [
         {
