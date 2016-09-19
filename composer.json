@@ -1,11 +1,11 @@
 {
-    "name": "maks757/yii2-honers",
+    "name": "maks757/yii2-progress",
     "description": "Components and modules for the management achievements.",
-    "keywords": ["yii2", "honers", "module honers", "component honers", "maks757"],
+    "keywords": ["yii2", "progress", "module honers", "component honers", "maks757"],
     "type": "yii2-extension",
     "license": "GNU Public License",
     "support": {
-        "source": "https://github.com/maks757/yii2-honers"
+        "source": "https://github.com/maks757/yii2-progress"
     },
     "require": {
         "yiisoft/yii2": ">=2.0.4",
@@ -19,7 +19,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "maks757\\honers\\": ""
+            "maks757\\progress\\": ""
         }
     }
 }
