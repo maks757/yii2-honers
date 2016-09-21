@@ -37,7 +37,7 @@ yii migrate --migrationPath=@vendor/maks757/yii2-progress/migrations
             ]
         ]
     ],
-    // Images config (temporarily does not apply)
+    // Images config
     'imagableProgress' => [
         'class' => 'bl\imagable\Imagable',
         'imageClass' => \bl\progress\components\image\CreateImageImagine::className(),
@@ -89,10 +89,15 @@ or
 #### Using example
 ```php
 $userProgress = \bl\progress\entities\UserProgress::getUserProgress($userRegisterInfo->id);
-foreach ($userProgress as $progress)
+foreach ($userProgress as $value)
 {
-    $content = Html::tag('h3', $progress->name);
-    $content .= Html::img($progress->image->image);
+    /** *@var Progress $progress */
+    $progress = Yii::$app->progress;
+    $pathImage = $progress->getImage($value->image->image, 'progress', 'short');
+
+    $content = Html::tag('h3', $value->name);
+    $content .= Html::img($pathImage);
     echo Html::tag('div', $content, ['class' => 'col-sm-2']);
 }
 ```
+![Alt text](/image/author.jpg "Optional title")

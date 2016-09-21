@@ -43,17 +43,15 @@ class ProgressComponent extends Object implements IProgressValidator
                     $progress->user_id = $user->id;
                     $progress->progress_key = $progress_key;
 
-                    if (!is_dir($params['imageBasePath'])){
-                        BaseFileHelper::createDirectory($params['imageBasePath']);
-                    }
+                    $image_key = hash_hmac('md5', $params['image'], 'progress_hash_key');
 
-                    $image_key = hash_hmac('md5', $params['image'], 'progress');
-                    $baseDir = BaseFileHelper::normalizePath(\Yii::getAlias(explode('/', $params['imageBasePath'])[0]));
-                    $imageDir = str_replace($baseDir,'',BaseFileHelper::normalizePath($params['image']));
+                    /** @var BaseImagable $imagable*/
+                    $imagable = \Yii::$app->imagableProgress;
+                    $image_name = $imagable->create('progress', BaseFileHelper::normalizePath($params['image']));
 
                     if(empty($user_image = UserProgressImages::findOne(['image_key' => $image_key]))) {
                         $user_image = new UserProgressImages();
-                        $user_image->image = $imageDir;
+                        $user_image->image = $image_name;
                         $user_image->image_key = $image_key;
                         if($user_image->validate())
                             $user_image->save();
