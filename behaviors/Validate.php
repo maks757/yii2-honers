@@ -58,6 +58,8 @@ class Validate extends Behavior
             $validator = \Yii::createObject($config['class']);
             if($validator instanceof IValidator) {
                 unset($this->owner->honors[$key]['class']);
+                $this->owner->honors[$key]['image'] = \Yii::getAlias($this->owner->imageBasePath.'/'.$this->owner->honors[$key]['image']);
+                $this->owner->honors[$key]['imageBasePath'] = $this->owner->imageBasePath;
                 return $validator;
             }
             else

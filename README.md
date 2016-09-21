@@ -37,7 +37,7 @@ yii migrate --migrationPath=@vendor/maks757/yii2-progress/migrations
             ]
         ]
     ],
-    // Images config
+    // Images config (temporarily does not apply)
     'imagableProgress' => [
         'class' => 'bl\imagable\Imagable',
         'imageClass' => \bl\progress\components\image\CreateImageImagine::className(),
@@ -91,14 +91,8 @@ or
 $userProgress = \bl\progress\entities\UserProgress::getUserProgress($userRegisterInfo->id);
 foreach ($userProgress as $progress)
 {
-    /**@var BaseImagable $imagine */
-    $imagine = \Yii::$app->imagableProgress;
-    $imagePath = $imagine->get('progress', 'short', $progress->image);
-    $aliasPath = BaseFileHelper::normalizePath(Yii::getAlias('@webroot'));
-    $image = str_replace($aliasPath,'',$imagePath);
-
     $content = Html::tag('h3', $progress->name);
-    $content .= Html::img($image);
+    $content .= Html::img($progress->image->image);
     echo Html::tag('div', $content, ['class' => 'col-sm-2']);
 }
 ```

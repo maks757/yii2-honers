@@ -10,8 +10,8 @@ use Yii;
  * @property integer $id
  * @property string $progress_key
  * @property integer $user_id
+ * @property integer $image_id
  * @property string $name
- * @property string $image
  * @property string $short_description
  * @property string $long_description
  */
@@ -31,11 +31,11 @@ class UserProgress extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id'], 'integer'],
-            [['name', 'short_description'], 'string', 'max' => 100],
+            [['user_id', 'image_id'], 'integer'],
             [['progress_key'], 'string', 'max' => 128],
-            [['image'], 'string', 'max' => 60],
+            [['name', 'short_description'], 'string', 'max' => 100],
             [['long_description'], 'string', 'max' => 255],
+            [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserProgressImages::className(), 'targetAttribute' => ['image_id' => 'id']],
         ];
     }
 
@@ -46,9 +46,9 @@ class UserProgress extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'progress_key' => 'Progress Key',
             'user_id' => 'User ID',
             'name' => 'Name',
-            'image' => 'Image',
             'short_description' => 'Short Description',
             'long_description' => 'Long Description',
         ];
@@ -63,5 +63,13 @@ class UserProgress extends \yii\db\ActiveRecord
             $user_id = Yii::$app->user->id;
         $userProgress = UserProgress::findAll(['user_id' => $user_id]);
         return $userProgress;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery|UserProgressImages
+     */
+    public function getImage()
+    {
+        return $this->hasOne(UserProgressImages::className(), ['id' => 'image_id']);
     }
 }

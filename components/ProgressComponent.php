@@ -7,10 +7,12 @@ namespace bl\progress\components;
 
 use bl\imagable\BaseImagable;
 use bl\progress\entities\UserProgress;
+use bl\progress\entities\UserProgressImages;
 use bl\progress\interfaces\IProgressValidator;
 use bl\progress\interfaces\IValidator;
 use common\models\User;
 use yii\base\Object;
+use yii\base\Security;
 use yii\helpers\BaseFileHelper;
 
 class ProgressComponent extends Object implements IProgressValidator
@@ -32,10 +34,6 @@ class ProgressComponent extends Object implements IProgressValidator
         if(!empty($user)){
             /** @var IValidator $validator */
             if($validator->validateOne($user)){
-                /**@var BaseImagable $imagine */
-                $imagine = \Yii::$app->imagableProgress;
-                $nameImage = $imagine->create('progress', BaseFileHelper::normalizePath($params['image']));
-
                 $progress_key = get_class($validator);
 
                 if(empty(UserProgress::findOne(['user_id' => $user->id, 'progress_key' => $progress_key]))) {
@@ -43,11 +41,29 @@ class ProgressComponent extends Object implements IProgressValidator
                     $progress->load($params, '');
 
                     $progress->user_id = $user->id;
-                    $progress->image = $nameImage;
                     $progress->progress_key = $progress_key;
 
-                    if ($progress->validate())
+                    if (!is_dir($params['imageBasePath'])){
+                        BaseFileHelper::createDirectory($params['imageBasePath']);
+                    }
+
+                    $image_key = hash_hmac('md5', $params['image'], 'progress');
+                    $baseDir = BaseFileHelper::normalizePath(\Yii::getAlias(explode('/', $params['imageBasePath'])[0]));
+                    $imageDir = str_replace($baseDir,'',BaseFileHelper::normalizePath($params['image']));
+
+                    if(empty($user_image = UserProgressImages::findOne(['image_key' => $image_key]))) {
+                        $user_image = new UserProgressImages();
+                        $user_image->image = $imageDir;
+                        $user_image->image_key = $image_key;
+                        if($user_image->validate())
+                            $user_image->save();
+                        else
+                            $user_image = null;
+                    }
+                    if ($progress->validate()) {
+                        $progress->image_id = $user_image->id;
                         $progress->save();
+                    }
                 }
             }
         }
