@@ -1,6 +1,6 @@
 {
     "name": "maks757/yii2-progress",
-    "description": "Components and modules for the management achievements.",
+    "description": "This component allows users to work with the achievements.",
     "keywords": ["yii2", "progress", "module progress", "component progress", "maks757"],
     "type": "yii2-extension",
     "license": "GNU Public License",
