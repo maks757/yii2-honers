@@ -13,7 +13,7 @@ use yii\helpers\BaseFileHelper;
 
 class Images extends Behavior
 {
-    public function getImage($image_name, $category, $type)
+    public function getImage($image_name, $category = 'progress', $type = 'short')
     {
         /**@var BaseImagable $imagine */
         $imagine = \Yii::$app->imagableProgress;
