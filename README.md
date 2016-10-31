@@ -2,7 +2,7 @@
 
 #### Install
 ```
-composer.phar require maks757/yii2-progress
+php composer.phar require maks757/yii2-progress
 ```
 or
 ```
