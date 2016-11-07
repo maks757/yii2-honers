@@ -10,6 +10,10 @@ use Yii;
  * @property integer $id
  * @property string $image_key
  * @property string $image
+ * @property string $name
+ * @property string $progress_key
+ * @property string $short_description
+ * @property string $long_description
  */
 class UserProgressImages extends \yii\db\ActiveRecord
 {
@@ -29,6 +33,9 @@ class UserProgressImages extends \yii\db\ActiveRecord
         return [
             [['image_key'], 'string', 'max' => 128],
             [['image'], 'string', 'max' => 255],
+            [['progress_key'], 'string', 'max' => 128],
+            [['name', 'short_description'], 'string', 'max' => 100],
+            [['long_description'], 'string', 'max' => 255],
         ];
     }
 

@@ -32,9 +32,6 @@ class UserProgress extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'image_id'], 'integer'],
-            [['progress_key'], 'string', 'max' => 128],
-            [['name', 'short_description'], 'string', 'max' => 100],
-            [['long_description'], 'string', 'max' => 255],
             [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserProgressImages::className(), 'targetAttribute' => ['image_id' => 'id']],
         ];
     }
@@ -68,7 +65,7 @@ class UserProgress extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery|UserProgressImages
      */
-    public function getImage()
+    public function getData()
     {
         return $this->hasOne(UserProgressImages::className(), ['id' => 'image_id']);
     }
