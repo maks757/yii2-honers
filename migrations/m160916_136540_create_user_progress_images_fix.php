@@ -9,10 +9,10 @@ class m160916_136540_create_user_progress_images_fix extends Migration
 {
     public function up()
     {
-//        $this->addColumn('user_progress_images', 'progress_key', $this->string(128));
-//        $this->addColumn('user_progress_images', 'name', $this->string(100));
-//        $this->addColumn('user_progress_images', 'short_description', $this->string(100));
-//        $this->addColumn('user_progress_images', 'long_description', $this->string(255));
+        $this->addColumn('user_progress_images', 'progress_key', $this->string(128));
+        $this->addColumn('user_progress_images', 'name', $this->string(100));
+        $this->addColumn('user_progress_images', 'short_description', $this->string(100));
+        $this->addColumn('user_progress_images', 'long_description', $this->string(255));
 
         $progress = UserProgress::find()->all();
         /** @var $prog UserProgress */
@@ -37,8 +37,6 @@ class m160916_136540_create_user_progress_images_fix extends Migration
     public function down()
     {
         echo "m160916_135560_create_user_progress_images cannot be reverted.\n";
-
-        $this->dropTable('user_progress_images');
 
         return true;
     }
