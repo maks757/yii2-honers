@@ -28,10 +28,10 @@ class m160916_136540_create_user_progress_images_fix extends Migration
             }
         }
 
-        $this->dropColumn('user_progress_images', 'progress_key');
-        $this->dropColumn('user_progress_images', 'name');
-        $this->dropColumn('user_progress_images', 'short_description');
-        $this->dropColumn('user_progress_images', 'long_description');
+        $this->dropColumn('user_progress', 'progress_key');
+        $this->dropColumn('user_progress', 'name');
+        $this->dropColumn('user_progress', 'short_description');
+        $this->dropColumn('user_progress', 'long_description');
     }
 
     public function down()
