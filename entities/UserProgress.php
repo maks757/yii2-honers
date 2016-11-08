@@ -61,8 +61,12 @@ class UserProgress extends \yii\db\ActiveRecord
         if(empty($user_id))
             $user_id = Yii::$app->user->id;
             $userProgress = UserProgress::findAll(['user_id' => $user_id]);
-        ArrayHelper::multisort($userProgress, ['data.position'], [SORT_ASC]);
-        return ArrayHelper::index($userProgress, 'data.group');
+        if($group) {
+            ArrayHelper::multisort($userProgress, ['data.position'], [SORT_ASC]);
+            return ArrayHelper::index($userProgress, 'data.group');
+        } else {
+            return $userProgress;
+        }
     }
 
     /**
