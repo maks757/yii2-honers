@@ -36,7 +36,7 @@ class ProgressComponent extends Object implements IProgressValidator
             if($validator->validateOne($user)){
                 $progress_key = get_class($validator);
 
-                if(empty($progress = UserProgress::findOne(['user_id' => $user->id, 'progress_key' => $progress_key]))) {
+                if(empty($progress = UserProgress::findOne(['user_id' => $user->id]))) {
                     if($progress->data->progress_key != $progress_key) {
                         $progress = new UserProgress();
                         $progress->user_id = $user->id;
