@@ -13,14 +13,16 @@ class m160916_136640_add_column extends Migration
         $this->addColumn('user_progress_images', 'position', $this->integer());
 
         $honors = Yii::$app->components['progress']['honors'];
-        if(!empty($honor['group']) && !empty($honor['position'])) {
-            foreach ($honors as $honor) {
+        foreach ($honors as $honor) {
+            if (!empty($honor['group']) && !empty($honor['position'])) {
+                var_dump($honor);
                 if ($data = UserProgressImages::find()->where(['name' => $honor['name']])->one()) {
                     $data->group = $honor['group'];
                     $data->position = $honor['position'];
                     $data->save();
                 }
             }
+
         }
     }
 
