@@ -3,6 +3,7 @@
 namespace bl\progress\entities;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "user_progress".
@@ -59,17 +60,9 @@ class UserProgress extends \yii\db\ActiveRecord
     public static function getUserProgress($user_id = null, $group = false){
         if(empty($user_id))
             $user_id = Yii::$app->user->id;
-        if($group){
-            $userProgress = UserProgress::find()->where(['user_id' => $user_id])->with(['data'])
-                ->joinWith(['data' => function($query){
-                    $query->orderBy(['position' => SORT_ASC])
-                        ->groupBy(['group']);
-                }])->all();
-        } else {
             $userProgress = UserProgress::findAll(['user_id' => $user_id]);
-        }
-
-        return $userProgress;
+        ArrayHelper::multisort($userProgress, ['data.position'], [SORT_ASC]);
+        return ArrayHelper::index($userProgress, 'data.group');
     }
 
     /**
