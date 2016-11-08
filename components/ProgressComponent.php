@@ -36,31 +36,32 @@ class ProgressComponent extends Object implements IProgressValidator
             if($validator->validateOne($user)){
                 $progress_key = get_class($validator);
 
-                if(empty(UserProgress::findOne(['user_id' => $user->id, 'progress_key' => $progress_key]))) {
-                    $progress = new UserProgress();
-                    $progress->load($params, '');
+                if(empty($progress = UserProgress::findOne(['user_id' => $user->id, 'progress_key' => $progress_key]))) {
+                    if($progress->data->progress_key != $progress_key) {
+                        $progress = new UserProgress();
+                        $progress->user_id = $user->id;
 
-                    $progress->user_id = $user->id;
-                    $progress->progress_key = $progress_key;
+                        $image_key = hash_hmac('md5', $params['image'], 'progress_hash_key');
 
-                    $image_key = hash_hmac('md5', $params['image'], 'progress_hash_key');
+                        /** @var BaseImagable $imagable*/
+                        $imagable = \Yii::$app->imagableProgress;
+                        $image_name = $imagable->create('progress', BaseFileHelper::normalizePath($params['image']));
 
-                    /** @var BaseImagable $imagable*/
-                    $imagable = \Yii::$app->imagableProgress;
-                    $image_name = $imagable->create('progress', BaseFileHelper::normalizePath($params['image']));
-
-                    if(empty($user_image = UserProgressImages::findOne(['image_key' => $image_key]))) {
-                        $user_image = new UserProgressImages();
-                        $user_image->image = $image_name;
-                        $user_image->image_key = $image_key;
-                        if($user_image->validate())
-                            $user_image->save();
-                        else
-                            $user_image = null;
-                    }
-                    if ($progress->validate()) {
-                        $progress->image_id = $user_image->id;
-                        $progress->save();
+                        if(empty($user_image = UserProgressImages::findOne(['image_key' => $image_key]))) {
+                            $user_image = new UserProgressImages();
+                            $user_image->load($params, '');
+                            $user_image->image = $image_name;
+                            $user_image->image_key = $image_key;
+                            $user_image->progress_key = $progress_key;
+                            if($user_image->validate())
+                                $user_image->save();
+                            else
+                                $user_image = null;
+                        }
+                        if ($progress->validate()) {
+                            $progress->image_id = $user_image->id;
+                            $progress->save();
+                        }
                     }
                 }
             }

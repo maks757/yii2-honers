@@ -14,6 +14,8 @@ use Yii;
  * @property string $progress_key
  * @property string $short_description
  * @property string $long_description
+ * @property integer $group
+ * @property integer $position
  */
 class UserProgressImages extends \yii\db\ActiveRecord
 {
@@ -36,6 +38,7 @@ class UserProgressImages extends \yii\db\ActiveRecord
             [['progress_key'], 'string', 'max' => 128],
             [['name', 'short_description'], 'string', 'max' => 100],
             [['long_description'], 'string', 'max' => 255],
+            [['group', 'position'], 'integer'],
         ];
     }
 

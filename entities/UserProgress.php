@@ -53,12 +53,22 @@ class UserProgress extends \yii\db\ActiveRecord
 
     /**
      * @param integer $user_id
-     * @return static[]|UserProgress[]
+     * @param bool $group
+     * @return UserProgress[]|static[]
      */
-    public static function getUserProgress($user_id = null){
+    public static function getUserProgress($user_id = null, $group = false){
         if(empty($user_id))
             $user_id = Yii::$app->user->id;
-        $userProgress = UserProgress::findAll(['user_id' => $user_id]);
+        if($group){
+            $userProgress = UserProgress::find()->where(['user_id' => $user_id])->with(['data'])
+                ->joinWith(['data' => function($query){
+                    $query->orderBy(['position' => SORT_ASC])
+                        ->groupBy(['group']);
+                }])->all();
+        } else {
+            $userProgress = UserProgress::findAll(['user_id' => $user_id]);
+        }
+
         return $userProgress;
     }
 
