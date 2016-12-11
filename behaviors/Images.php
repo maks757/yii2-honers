@@ -18,7 +18,7 @@ class Images extends Behavior
         /**@var BaseImagable $imagine */
         $imagine = \Yii::$app->imagableProgress;
         $imagePath = $imagine->get($category, $type, $image_name);
-        $aliasPath = BaseFileHelper::normalizePath(Yii::getAlias('@webroot'));
+        $aliasPath = BaseFileHelper::normalizePath(Yii::getAlias('@frontend/web'));
         $image = str_replace($aliasPath,'',$imagePath);
 
         return $image;

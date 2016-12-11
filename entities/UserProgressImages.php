@@ -53,4 +53,12 @@ class UserProgressImages extends \yii\db\ActiveRecord
             'image' => 'Image',
         ];
     }
+
+    /**
+     * @return \yii\db\ActiveQuery|UserProgressImages
+     */
+    public function getProgress()
+    {
+        return $this->hasOne(UserProgress::className(), ['image_id' => 'id']);
+    }
 }

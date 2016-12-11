@@ -35,8 +35,10 @@ class ProgressComponent extends Object implements IProgressValidator
             /** @var IValidator $validator */
             if($validator->validateOne($user)){
                 $progress_key = get_class($validator);
-
-                if(empty($progress = UserProgress::findOne(['user_id' => $user->id]))) {
+                $progress = UserProgressImages::find()->where(['progress_key' => $progress_key])->with(['progress' => function($query) use ($user){
+                    $query->andWhere(['user_id' => $user->id]);
+                }])->one();
+                if(empty($progress = $progress->progress)) {
                     if($progress->data->progress_key != $progress_key) {
                         $progress = new UserProgress();
                         $progress->user_id = $user->id;
